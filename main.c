@@ -5,13 +5,15 @@
 #include <stdlib.h>
 #include "string.h"
 #define MAX 510//the maximum length which the sentence can have
-
 int main() {
-    char str[MAX]  = {0};//the sentence from the user
-    char temp[MAX]; //temp string
+    char str[MAX];//the sentence from the user
+    char tmp[MAX]; //temp string to save back str in it
     char *text = NULL;
     FILE* file;
     while(1){
+        int CountWords = 0;
+        int CountChars = 0;
+        int CountLine = 0;
         file = fopen("file.txt", "a+");
         printf("Enter String, or “exit” to end program: \n");
         //---check if the entered string is a null!---
@@ -19,26 +21,23 @@ int main() {
             perror("enter a sentence");
             continue;
         }
-        str[strlen(str) - 1] = '\0';
+        str[strlen(str) - 1] = '\0';// put /0 at the end of the giving sentence
         if(file == NULL){
             printf("Error opening the file.\n");
             exit(1);
         }
 
         //---exit if the input is exit---
-        if(strcmp(str , "exit" )== 0){
-            break;
-        }
-//        if(strcmp(str , "history" )== 0){
-//            break;
-//        }
+
+            if(strcmp(str , "exit" )== 0){
+                break;
+            }
 
         if(strcmp(str , "history" )== 0){
             char * line = NULL;
-            size_t len = 0;
+            size_t length = 0;
             ssize_t read;
-            int CountLine = 0;
-            while ((read = getline(&line, &len, file)) != -1) {
+            while ((read = getline(&line, &length, file)) != -1) {
                 printf("%d: %s", CountLine,line);
                 CountLine++;
             }
@@ -51,30 +50,28 @@ int main() {
             fprintf(file, "%s", str);
             fputs("\n", file);
             int i;
-            int CountWords = 0;
-            strcpy(temp, "");
-            int CountChars = 0;
-            int k = 0;// use k  to move on temp indexes
+            strcpy(tmp, "");
+            int k = 0;// use k  to move on tmp indexes
             for (i = 0; str[i] != '\0'; i++) {// this Loop count how many words in the String
                 if (str[i] != ' ' && (str[i+1] == ' ' || str[i+ 1] == '\0')) {// this condition checks  if the char is not a space and the char after it is a space or the end of sentence
                     CountWords++;
                 }
                 if (str[i] != ' ') {// this condition will check if the char is not equal to space
                     CountChars++;
-                    temp[k] = str[i];//put the char in temp
+                    tmp[k] = str[i];//put the char in tmp
                     k++;
                 }
                 if (str[i] != ' ' && (str[i + 1] == ' ' || str[i + 1] == '\0')) {// this condition checks  if the char is not a space and the char after it is a space or the end of sentence
-                    temp[k] = '\0';//will mark the end of a temp
-                    text = (char *) malloc(sizeof(char) * (CountChars + 1));// array there length is the char size * (the size of the temp+1('\0'))
+                    tmp[k] = '\0';//will mark the end of a tmp
+                    text = (char *) malloc(sizeof(char) * (CountChars + 1));// array there length is the char size * (the size of the tmp+1('\0'))
                     if (text == NULL) // condition If dynamic allocation failed
                     {
                         puts("malloc is failed\n");
                         exit(1);// exit the code
                     }
-                    strcpy(text, temp);// copy from temp to word
+                    strcpy(text, tmp);// copy from tmp to word
                     k = 0;
-                    strcpy(temp, "");
+                    strcpy(tmp, "");
                     free(text);// free memory
                 }
 
@@ -89,15 +86,7 @@ int main() {
             }
             fclose(file);
         }
-        }
-
-
-
-
-
+    }
     return 0;
 }
-
-
-
 
