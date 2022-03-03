@@ -1,14 +1,11 @@
 //name: Yahya Saad
 //id: 322944869
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "string.h"
 #define MAX 510//the maximum length which the sentence can have
 int main() {
     char str[MAX];//the sentence from the user
-    char tmp[MAX]; //temp string to save back str in it
-    char *text = NULL;
     FILE* file;
     while(1){
         int CountWords = 0;
@@ -29,9 +26,9 @@ int main() {
 
         //---exit if the input is exit---
 
-            if(strcmp(str , "exit" )== 0){
-                break;
-            }
+        if(strcmp(str , "exit" )== 0){
+            break;
+        }
 
         if(strcmp(str , "history" )== 0){
             char * line = NULL;
@@ -45,34 +42,19 @@ int main() {
                 free(line);
             fseek(file , 0 , SEEK_SET);
         }
-
         else{
-            fprintf(file, "%s", str);
-            fputs("\n", file);
+            if(str[0] == '\0'){
+               continue;
+            }else{
+                fprintf(file, "%s\n", str);
+            }
             int i;
-            strcpy(tmp, "");
-            int k = 0;// use k  to move on tmp indexes
             for (i = 0; str[i] != '\0'; i++) {// this Loop count how many words in the String
                 if (str[i] != ' ' && (str[i+1] == ' ' || str[i+ 1] == '\0')) {// this condition checks  if the char is not a space and the char after it is a space or the end of sentence
                     CountWords++;
                 }
                 if (str[i] != ' ') {// this condition will check if the char is not equal to space
                     CountChars++;
-                    tmp[k] = str[i];//put the char in tmp
-                    k++;
-                }
-                if (str[i] != ' ' && (str[i + 1] == ' ' || str[i + 1] == '\0')) {// this condition checks  if the char is not a space and the char after it is a space or the end of sentence
-                    tmp[k] = '\0';//will mark the end of a tmp
-                    text = (char *) malloc(sizeof(char) * (CountChars + 1));// array there length is the char size * (the size of the tmp+1('\0'))
-                    if (text == NULL) // condition If dynamic allocation failed
-                    {
-                        puts("malloc is failed\n");
-                        exit(1);// exit the code
-                    }
-                    strcpy(text, tmp);// copy from tmp to word
-                    k = 0;
-                    strcpy(tmp, "");
-                    free(text);// free memory
                 }
 
             }
@@ -89,4 +71,3 @@ int main() {
     }
     return 0;
 }
-
