@@ -1,5 +1,4 @@
-//NAME: Yahya Saad
-//ID: 322944869
+
 #include <stdio.h>
 
 #include <stdlib.h>
@@ -37,8 +36,8 @@ int main() {
     if (strcmp(str, "history") == 0) {
       char * line = NULL;
       size_t length = 0;
-      ssize_t read;
-      while ((read = getline( & line, & length, file)) != -1) {
+      ssize_t r;//read line by line
+      while ((r = getline( & line, & length, file)) != -1) {
         printf("%d: %s", CountLine, line);
         CountLine++;
       }
@@ -74,7 +73,7 @@ int main() {
           //---print how many characters are in the sentence---
           printf("%d chars \n", CountChars);
       }
-      fclose(file);
+      fclose(file);//closing the file
     }
   }
   return 0;
