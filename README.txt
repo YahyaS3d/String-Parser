@@ -1,5 +1,7 @@
 ‏String Parser
 ‏Authored by Yahya Saad
+
+
 ‏==Description==
 ‏The program is a String Parser, this progrem can read an ordinary sentence which the user input and then will show on the screen: how many words in this sentence and how many characters has the user input in this text, also the user can input more than one sentence. When the user wants to stop using the program, the user must enter the word ("exit") in order to stop the program.
 ==Program DATABASE==
